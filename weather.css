@@ -147,6 +147,26 @@ form {
     font-size: 18px;
 }
 
+#temp-change {
+    width: 100px;
+    height: 25px;
+    background-color: transparent;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border: 1px solid white;
+    color: white;
+    outline: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#temp-change option {
+    color: black;
+}
+
 @media only screen and (max-width: 640px) {
     .container {
         width: 600px;

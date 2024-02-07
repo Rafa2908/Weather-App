@@ -1,56 +1,61 @@
-let  weatherInput = document.getElementById('search');
-let searchButton = document.querySelector('.search-img');
-let weatherContainer = document.querySelector('.weather-container');
+let weatherInput = document.getElementById("search");
+let searchButton = document.querySelector(".search-img");
+let weatherContainer = document.querySelector(".weather-container");
 const date = new Date();
 let day = date.getDay();
-// let time = date.getHours();
 
-// if (time > 16) {
-//     console.log(time);
-// }
-
-const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const daysOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 const currentDay = daysOfWeek[day];
 
-function getWeatherInfo() {
-    searchButton.addEventListener('click', async () => {
-    const cityWeather = weatherInput.value;
-    weatherInput.value = '';
-    let apiKey = '130b8da057b256780cea9d75e8fd5040';
-    let apiLink = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${cityWeather}`;
-    let weatherData = await fetch(apiLink + `&appid=${apiKey}`);
-    let data = await weatherData.json();
-    let weatherDisplay = forecastCard(data);
-    weatherContainer.innerHTML = weatherDisplay;
-    document.querySelector('.city').innerHTML = data.name;
-    document.querySelector('.current-day').innerHTML = currentDay;
-    document.querySelector('.weather-status').innerHTML = data.weather[0].main
+let data;
 
-    let weatherStatus = document.querySelector('.weather-icons');
-    if (data.weather[0].main === 'Rain') {
-        weatherStatus.src = './images/rain.png'
-    } else if (data.weather[0].main === 'Clouds') {
-        weatherStatus.src = './images/clouds.png'
-    } else if (data.weather[0].main === 'Clear') {
-        weatherStatus.src = './images/clear.png'
-    } else if (data.weather[0].main === 'Mist') {
-        weatherStatus.src = './images/mist.png'
-    } else if (data.weather[0].main === 'Snow') {
-        weatherStatus.src = './images/snow.png'
-    } else if  (data.weather[0].main === 'Drizzle') {
-        weatherStatus.src = './images/drizzle.png'
-    } 
-    });
+const getWeatherInfo = async () => {
+  const cityWeather = weatherInput.value;
+  weatherInput.value = "";
+  let apiKey = "130b8da057b256780cea9d75e8fd5040";
+  let apiLink = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${cityWeather}`;
+  let weatherData = await fetch(apiLink + `&appid=${apiKey}`);
+  data = await weatherData.json();
+  let weatherDisplay = forecastCard(data);
+  weatherContainer.innerHTML = weatherDisplay;
+  document.querySelector(".city").innerHTML = data.name;
+  document.querySelector(".current-day").innerHTML = currentDay;
+  document.querySelector(".weather-status").innerHTML = data.weather[0].main;
 
-    
-}
+  let weatherStatus = document.querySelector(".weather-icons");
+  if (data.weather[0].main === "Rain") {
+    weatherStatus.src = "./images/rain.png";
+  } else if (data.weather[0].main === "Clouds") {
+    weatherStatus.src = "./images/clouds.png";
+  } else if (data.weather[0].main === "Clear") {
+    weatherStatus.src = "./images/clear.png";
+  } else if (data.weather[0].main === "Mist") {
+    weatherStatus.src = "./images/mist.png";
+  } else if (data.weather[0].main === "Snow") {
+    weatherStatus.src = "./images/snow.png";
+  } else if (data.weather[0].main === "Drizzle") {
+    weatherStatus.src = "./images/drizzle.png";
+  }
+};
 
-getWeatherInfo();
+searchButton.addEventListener("click", getWeatherInfo);
+// function getWeatherInfo() {
+
+// }
+
+// getWeatherInfo();
 
 function forecastCard(data) {
-    let weatherCard = 
-    `
+  let weatherCard = `
     <div class="location d-flex">
     <h1 class="mb-smaller">My Location</h1>
     <p class="mb city"></p>
@@ -77,6 +82,20 @@ function forecastCard(data) {
       </div>
     </div>
   </div>
-    `
-    return weatherCard;
+    `;
+  return weatherCard;
 }
+
+let tempOption = document.getElementById("temp-change");
+
+tempOption.addEventListener("change", () => {
+  let selectedOption = tempOption.value;
+  let degreeContainer = document.querySelector(".deg");
+
+  if (selectedOption !== "C") {
+    let convertF = (Math.round(data.main.temp) * 9) / 5 + 32;
+    degreeContainer.innerHTML = `${Math.round(convertF)}°F`;
+  } else {
+    degreeContainer.innerHTML = `${Math.round(data.main.temp)}°C`;
+  }
+});
