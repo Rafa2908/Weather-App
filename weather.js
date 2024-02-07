@@ -48,11 +48,6 @@ const getWeatherInfo = async () => {
 };
 
 searchButton.addEventListener("click", getWeatherInfo);
-// function getWeatherInfo() {
-
-// }
-
-// getWeatherInfo();
 
 function forecastCard(data) {
   let weatherCard = `
